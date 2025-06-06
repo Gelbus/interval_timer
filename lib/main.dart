@@ -15,11 +15,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(fontFamily: 'base'),
       initialRoute: '/',
       routes: {
         '/': (context) => const Home(),
-        '/second': (context) => const SecondScreen(),
-        '/third': (context) => const ThirdScreen(),
+        '/workout_creating': (context) => const WorkoutCreating(),
+        '/workout': (context) => const Workout(),
       },
     );
   }

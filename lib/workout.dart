@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ThirdScreen extends StatelessWidget {
-  const ThirdScreen({super.key});
+class Workout extends StatelessWidget {
+  const Workout({super.key});
 
   @override
   Widget build(BuildContext context) {
