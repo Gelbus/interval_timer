@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const Home(),
-        '/workout_creating': (context) => const WorkoutCreating(),
+        '/workout_creating': (context) => WorkoutCreating(),
         '/workout': (context) => const Workout(),
       },
     );
