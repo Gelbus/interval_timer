@@ -11,6 +11,7 @@ class WorkoutCreating extends StatefulWidget {
 
 class _WorkoutCreating extends State<WorkoutCreating> {
   List<bool> isSelected = [true, false]; // Состояние переключателя
+  bool isExerciseSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -24,47 +25,36 @@ class _WorkoutCreating extends State<WorkoutCreating> {
 
             SizedBox(height: 30,),
 
-            ToggleButtons(
-                isSelected: isSelected,
-                onPressed: (int index) {
-                  setState(() {
-                    for (int i = 0; i < isSelected.length; i++) {
-                      isSelected[i] = i == index;
-                    }
-                  });
-                },
-                borderRadius: BorderRadius.all(Radius.circular(30)),
-                selectedColor: Colors.red,
-                fillColor: Colors.green,
-                color: Colors.blue,
-                borderColor: Colors.black,
-                selectedBorderColor: Colors.black,
-                children:
-                [
-                  Padding(
-                    padding: EdgeInsets.only(left: 30, right: 50, top: 10, bottom: 10),
-                    child: Text(
-                      'Работа',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'base',
-                        fontSize: 25
-                      ),
-                    ),
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xff1B2A41),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              padding: const EdgeInsets.all(4),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildAnimatedButton(
+                    text: "Работа",
+                    isSelected: isExerciseSelected,
+                    onTap: () {
+                      setState(() {
+                        isExerciseSelected = true;
+                      });
+                    },
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 30, right: 50, top: 10, bottom: 10),
-                    child: Text(
-                      'Отдых',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'base',
-                        fontSize: 25
-                      ),
-                    ),
-                  )
-                ]
-            )
+                  _buildAnimatedButton(
+                    text: "Отдых",
+                    isSelected: !isExerciseSelected,
+                    onTap: () {
+                      setState(() {
+                        isExerciseSelected = false;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -87,6 +77,35 @@ class _WorkoutCreating extends State<WorkoutCreating> {
       elevation: 0.0,
       scrolledUnderElevation: 0.0,
       centerTitle: true,
+    );
+  }
+
+  Widget _buildAnimatedButton({
+    required String text,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+        width: isSelected ? 160 : 120,
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: isSelected ? Color(0xff324A5F) : Colors.transparent,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: isSelected ? Colors.white : Colors.grey,
+            fontSize: 20,
+            fontFamily: 'base'
+          ),
+        ),
+      ),
     );
   }
 }
