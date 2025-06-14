@@ -56,7 +56,11 @@ class Home extends StatelessWidget {
         scrollDirection: Axis.vertical,
         separatorBuilder: (context, index) => SizedBox(height: 25,),
         itemBuilder: (context, index) {
-          return Container(
+          return GestureDetector(
+            onTap: (){
+              Navigator.pushNamed(context, '/workout_creating');
+            },
+            child: Container(
               alignment: Alignment.center,
               width: 300,
               height: 50,
@@ -100,6 +104,7 @@ class Home extends StatelessWidget {
                   ),
                 ],
               )
+            )
           );
         },
       ),

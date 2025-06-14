@@ -14,11 +14,14 @@ class WorkoutCreating extends StatefulWidget {
 }
 
 class _WorkoutCreating extends State<WorkoutCreating> {
-  bool isExerciseSelected = true;
   TextEditingController myController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
 
+  bool isExerciseSelected = true;
   int seconds = 1;
   int minutes = 0;
+
+  List<TrainingElement> steps = [];
 
 
 
@@ -27,6 +30,13 @@ class _WorkoutCreating extends State<WorkoutCreating> {
   void dispose() {
     myController.dispose();
     super.dispose();
+  }
+
+  void _scrollToEnd() {
+    _scrollController.animateTo(
+        _scrollController.position.extentTotal,
+        duration: Duration(seconds: 1),
+        curve: Curves.easeOut);
   }
 
   Widget build(BuildContext context) {
@@ -281,10 +291,11 @@ class _WorkoutCreating extends State<WorkoutCreating> {
   Expanded  _stepsList(){
     return Expanded(
       child: ListView.separated(
+        controller: _scrollController,
         padding: EdgeInsets.only(left: 20, right: 20),
-        itemCount: 101,
+        itemCount: steps.length,
         scrollDirection: Axis.vertical,
-        separatorBuilder: (context, index) => SizedBox(height: 25,),
+        separatorBuilder: (context, index) => SizedBox(height: 10,),
         itemBuilder: (context, index) {
           return Container(
               alignment: Alignment.center,
@@ -302,7 +313,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
                     height: 40,
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '$index Работа',
+                      steps[index].stepType ? '${index + 1} Работа': '${index + 1} Отдых',
                       style: TextStyle(
                         fontSize: 25,
                         color: Colors.white,
@@ -315,7 +326,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
                     height: 40,
                     alignment: Alignment.centerRight,
                     child: Text(
-                      '$minutes : $seconds',
+                      '${steps[index].minutes~/10}${steps[index].minutes%10} : ${steps[index].seconds~/10}${steps[index].seconds%10}',
                       style: TextStyle(
                         fontSize: 25,
                         color: Colors.white,
@@ -329,6 +340,9 @@ class _WorkoutCreating extends State<WorkoutCreating> {
                     alignment: Alignment.centerRight,
                     child: IconButton(
                       onPressed: () {
+                        setState(() {
+                          steps.remove(steps[index]);
+                        });
                       },
                       icon: Icon(
                         Icons.remove_circle_outline,
@@ -349,39 +363,42 @@ class _WorkoutCreating extends State<WorkoutCreating> {
     return Padding(
       padding: EdgeInsets.only(bottom: 40),
       child: ElevatedButton(
-          onPressed: () {
-
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: ElementsColor,
-            minimumSize: const Size(300, 70),
-            maximumSize: const Size(300, 70),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/icons/plus.svg',
-                width: 30,
-                height: 30,
-                colorFilter: ColorFilter.mode(
-                    Colors.white,
-                    BlendMode.srcIn
-                ),
+        onPressed: () {
+          setState(() {
+            steps.add(TrainingElement(stepType: isExerciseSelected, minutes: minutes, seconds: seconds));
+          });
+          _scrollToEnd();
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ElementsColor,
+          minimumSize: const Size(300, 70),
+          maximumSize: const Size(300, 70),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/icons/plus.svg',
+              width: 30,
+              height: 30,
+              colorFilter: ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn
               ),
+            ),
 
-              SizedBox(width: 10),
+            SizedBox(width: 10),
 
-              const Text(
-                'Добавить шаг',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontFamily: 'base'
-                ),
-              )
-            ],
-          )
+            const Text(
+              'Добавить шаг',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontFamily: 'base'
+              ),
+            )
+          ],
+        )
       ),
     );
   }
