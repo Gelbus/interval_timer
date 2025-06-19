@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.interval_timer">
     <application
         android:label="interval_timer"
         android:name="${applicationName}"

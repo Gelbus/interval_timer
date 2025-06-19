@@ -6,6 +6,8 @@ import 'package:interval_timer/config.dart';
 class Home extends StatelessWidget {
   const Home({super.key});
 
+  // List<Training> = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +54,13 @@ class Home extends StatelessWidget {
     return Expanded(
       child: ListView.separated(
         padding: EdgeInsets.only(left: 20, right: 20),
-        itemCount: 15,
+        itemCount: data!.length,
         scrollDirection: Axis.vertical,
         separatorBuilder: (context, index) => SizedBox(height: 25,),
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: (){
-              Navigator.pushNamed(context, '/workout_creating');
+              Navigator.pushNamed(context, '/workout');
             },
             child: Container(
               alignment: Alignment.center,
@@ -79,7 +81,7 @@ class Home extends StatelessWidget {
                     height: 40,
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Тренировка $index',
+                      data![index].name,
                       style: TextStyle(
                         fontSize: 25,
                         color: Colors.white,
@@ -95,7 +97,7 @@ class Home extends StatelessWidget {
                     height: 40,
                     alignment: Alignment.centerRight,
                     child: Text(
-                      '00:00:00',
+                      '${data![index].hours ~/ 10}${data![index].hours % 10}:${data![index].minutes ~/ 10}${data![index].minutes % 10}:${data![index].seconds ~/ 10}${data![index].seconds % 10}',
                       style: TextStyle(
                         fontSize: 25,
                         color: Colors.white,

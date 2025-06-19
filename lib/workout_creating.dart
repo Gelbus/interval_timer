@@ -14,7 +14,7 @@ class WorkoutCreating extends StatefulWidget {
 }
 
 class _WorkoutCreating extends State<WorkoutCreating> {
-  TextEditingController myController = TextEditingController();
+  TextEditingController textController = TextEditingController();
   ScrollController _scrollController = ScrollController();
 
   bool isExerciseSelected = true;
@@ -28,7 +28,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
 
   @override
   void dispose() {
-    myController.dispose();
+    textController.dispose();
     super.dispose();
   }
 
@@ -88,8 +88,11 @@ class _WorkoutCreating extends State<WorkoutCreating> {
             size: 35
           ),
           onPressed: () {
-            print('Добавить тренировку');
-            Navigator.pushNamed(context, '/');
+            if (textController.text != ''){
+              data!.add(Training(name: textController.text, steps: steps));
+              saveTrainingsList(data!);
+              Navigator.pushNamed(context, '/');
+            }
           },
         ),
       ],
@@ -105,7 +108,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
     return Container(
       padding: EdgeInsets.only(left: 20, right: 20),
       child: TextField(
-        controller: myController,
+        controller: textController,
         decoration: InputDecoration(
           hintText: 'Введите название тренировки',
           border: OutlineInputBorder(
@@ -114,7 +117,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
           ), // граница поля
           suffixIcon: IconButton( // иконка после текста
             icon: Icon(Icons.clear),
-            onPressed: () => myController.clear(),
+            onPressed: () => textController.clear(),
           ),
           filled: true, // заливка фона
           fillColor: ElementsColor, // цвет фона

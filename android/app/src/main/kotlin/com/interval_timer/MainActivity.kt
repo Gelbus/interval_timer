@@ -1,4 +1,4 @@
-package com.example.interval_timer
+package com.interval_timer
 
 import io.flutter.embedding.android.FlutterActivity
 
