@@ -26,7 +26,10 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const Home(),
         '/workout_creating': (context) => WorkoutCreating(),
-        '/workout': (context) => const Workout(),
+        '/workout': (context) {
+          final currentTraining = ModalRoute.of(context)!.settings.arguments as int;
+          return Workout(currentTraining: currentTraining);
+        },
       },
     );
   }

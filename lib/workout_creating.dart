@@ -91,7 +91,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
             if (textController.text != ''){
               data!.add(Training(name: textController.text, steps: steps));
               saveTrainingsList(data!);
-              Navigator.pushNamed(context, '/');
+              Navigator.pop(context);
             }
           },
         ),
@@ -250,7 +250,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
               ),
 
               NumberPicker(
-                minValue: 1,
+                minValue: 0,
                 maxValue: 59,
                 value: seconds,
                 zeroPad: true,

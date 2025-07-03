@@ -60,7 +60,10 @@ class Home extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: (){
-              Navigator.pushNamed(context, '/workout');
+              Navigator.pushNamed(
+                context, '/workout',
+                arguments: index
+              );
             },
             child: Container(
               alignment: Alignment.center,
