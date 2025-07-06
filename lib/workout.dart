@@ -21,6 +21,8 @@ class _Workout extends State<Workout> {
   int currentStep = 0;
   int minutes = 0;
   int seconds = 0;
+  int currentMinutes = 0;
+  int currentSeconds = 0;
 
   @override
   void initState() {
@@ -61,8 +63,8 @@ class _Workout extends State<Workout> {
 
   AppBar appBar() {
     return AppBar(
-      title: const Text(
-        '',
+      title: Text(
+        data![widget.currentTraining].name,
         style: TextStyle(
             fontSize: 30,
             fontFamily: 'base',
@@ -94,7 +96,7 @@ class _Workout extends State<Workout> {
   Text _stepTimer()
   {
     return Text(
-      "${minutes ~/ 10}${minutes % 10} : ${seconds ~/ 10}${seconds % 10}",
+      "${currentMinutes ~/ 10}${currentMinutes % 10} : ${currentSeconds ~/ 10}${currentSeconds % 10}",
       style: TextStyle(
           fontSize: 80,
           fontFamily: 'base',
@@ -142,7 +144,7 @@ class _Workout extends State<Workout> {
                     height: 40,
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      steps![index].stepType ? '${index + 1} Работа': '${index + 1} Отдых',
+                      steps![index].stepType ? 'Работа': 'Отдых',
                       style: TextStyle(
                         fontSize: 25,
                         color: Colors.white,
@@ -163,23 +165,6 @@ class _Workout extends State<Workout> {
                     ),
                   ),
 
-                  Container(
-                    width: 80,
-                    height: 40,
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          steps?.remove(steps?[index]);
-                        });
-                      },
-                      icon: Icon(
-                        Icons.remove_circle_outline,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                    ),
-                  )
                 ],
               )
           );

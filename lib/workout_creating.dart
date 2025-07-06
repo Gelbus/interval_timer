@@ -88,7 +88,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
             size: 35
           ),
           onPressed: () {
-            if (textController.text != ''){
+            if (textController.text != '' && steps.length != 0){
               data!.add(Training(name: textController.text, steps: steps));
               saveTrainingsList(data!);
               Navigator.pop(context);
@@ -367,10 +367,13 @@ class _WorkoutCreating extends State<WorkoutCreating> {
       padding: EdgeInsets.only(bottom: 40),
       child: ElevatedButton(
         onPressed: () {
-          setState(() {
-            steps.add(TrainingElement(stepType: isExerciseSelected, minutes: minutes, seconds: seconds));
-          });
-          _scrollToEnd();
+          if (seconds != 0 || minutes != 0)
+            {
+              setState(() {
+                steps.add(TrainingElement(stepType: isExerciseSelected, minutes: minutes, seconds: seconds));
+              });
+              _scrollToEnd();
+            }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: ElementsColor,
