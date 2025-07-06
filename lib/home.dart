@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interval_timer/config.dart';
 
-
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
-  // List<Training> = [];
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +125,10 @@ class Home extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 40),
       child: ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/workout_creating');
+            Navigator.pushNamed(context,
+                '/workout_creating').then((_) {
+              setState(() {});
+            });
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: ElementsColor,
