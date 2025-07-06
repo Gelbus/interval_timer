@@ -88,7 +88,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
             size: 35
           ),
           onPressed: () {
-            if (textController.text != '' && steps.length != 0){
+            if (textController.text != '' && steps.isNotEmpty){
               data!.add(Training(name: textController.text, steps: steps));
               saveTrainingsList(data!);
               Navigator.pop(context);

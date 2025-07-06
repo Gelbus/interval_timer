@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:interval_timer/config.dart';
 
@@ -18,18 +20,85 @@ class _Workout extends State<Workout> {
 
   late List<TrainingElement>? steps;
 
-  int currentStep = 0;
+  int currentStep = -1;
+
+  int generalSeconds = 0;
   int minutes = 0;
   int seconds = 0;
+
+  int generalCurrentSeconds = 0;
   int currentMinutes = 0;
   int currentSeconds = 0;
+
+  bool isWorking = true;
+  bool isPrepare = true;
+
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     steps = data?[widget.currentTraining].steps;
-    minutes = data![widget.currentTraining].hours * 60 + data![widget.currentTraining].minutes;
-    seconds = data![widget.currentTraining].seconds;
+
+    generalSeconds =  data![widget.currentTraining].hours * 60 * 60 +
+                      data![widget.currentTraining].minutes * 60 +
+                      data![widget.currentTraining].seconds +
+                      10;
+    generalCurrentSeconds = 10;
+
+    minutes = generalSeconds ~/ 60;
+    seconds = generalSeconds % 60;
+
+    currentMinutes = generalCurrentSeconds ~/ 60;
+    currentSeconds = generalCurrentSeconds % 60;
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      timerIteration();
+    });
+    setState(() {});
+  }
+
+  void timerIteration() {
+    generalSeconds -= 1;
+    generalCurrentSeconds -= 1;
+    if (isPrepare)
+      {
+        isPrepare = false;
+      }
+    if (generalCurrentSeconds == 0)
+      {
+        currentStep += 1;
+        print(currentStep);
+        print(steps?.length);
+
+        if (currentStep == steps?.length)
+        {
+          _timer?.cancel();
+        }
+        else
+          {
+            generalCurrentSeconds = steps![currentStep].minutes * 60 +
+                steps![currentStep].seconds;
+          }
+        
+      }
+
+
+    minutes = generalSeconds ~/ 60;
+    seconds = generalSeconds % 60;
+
+    currentMinutes = generalCurrentSeconds ~/ 60;
+    currentSeconds = generalCurrentSeconds % 60;
+
+
+
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // ОБЯЗАТЕЛЬНО отменяем таймер при удалении виджета
+    super.dispose();
   }
 
   @override
