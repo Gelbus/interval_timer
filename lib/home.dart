@@ -71,7 +71,7 @@ class _HomeState extends State<Home> {
             },
             child: Container(
               alignment: Alignment.center,
-              width: 300,
+              width: 340,
               height: 50,
               decoration: BoxDecoration(
                   color: ElementsColor,
@@ -80,11 +80,12 @@ class _HomeState extends State<Home> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(width: 10,),
                   Container(
                     decoration: BoxDecoration(
                       //color: Colors.blue
                     ),
-                    width: 170,
+                    width: 160,
                     height: 40,
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -100,7 +101,7 @@ class _HomeState extends State<Home> {
                     decoration: BoxDecoration(
                       //color: Colors.red
                     ),
-                    width: 130,
+                    width: 120,
                     height: 40,
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -111,6 +112,25 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
+
+                  SizedBox(width: 10,),
+                  Container(
+                    width: 40,
+                    height: 40,
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          data!.remove(data![index]);
+                        });
+                      },
+                      icon: Icon(
+                        Icons.remove_circle_outline,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                    ),
+                  )
                 ],
               )
             )

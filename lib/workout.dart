@@ -11,7 +11,6 @@ class Workout extends StatefulWidget {
   @override
   _Workout createState() => _Workout();
 
-
 }
 
 class _Workout extends State<Workout> {
@@ -32,6 +31,10 @@ class _Workout extends State<Workout> {
 
   bool isWorking = true;
   bool isPrepare = true;
+
+  String activityTypeText = "Подготовка";
+  Color activityTypeColor = Colors.yellow;
+  Color BGChanger = BGColor;
 
   Timer? _timer;
 
@@ -61,6 +64,7 @@ class _Workout extends State<Workout> {
   void timerIteration() {
     generalSeconds -= 1;
     generalCurrentSeconds -= 1;
+
     if (isPrepare)
       {
         isPrepare = false;
@@ -68,8 +72,6 @@ class _Workout extends State<Workout> {
     if (generalCurrentSeconds == 0)
       {
         currentStep += 1;
-        print(currentStep);
-        print(steps?.length);
 
         if (currentStep == steps?.length)
         {
@@ -78,19 +80,19 @@ class _Workout extends State<Workout> {
         else
           {
             generalCurrentSeconds = steps![currentStep].minutes * 60 +
-                steps![currentStep].seconds;
-          }
-        
-      }
+                                    steps![currentStep].seconds;
+            activityTypeText = steps![currentStep].stepType ? "Работа": "Отдых";
+            activityTypeColor = steps![currentStep].stepType ? Colors.pink: Colors.green;
+            BGChanger = steps![currentStep].stepType ? Colors.pink: Colors.green;
 
+          }
+      }
 
     minutes = generalSeconds ~/ 60;
     seconds = generalSeconds % 60;
 
     currentMinutes = generalCurrentSeconds ~/ 60;
     currentSeconds = generalCurrentSeconds % 60;
-
-
 
     setState(() {});
   }
@@ -117,6 +119,16 @@ class _Workout extends State<Workout> {
             SizedBox(height: 20),
             _stepsList(),
 
+            SizedBox(height: 10,),
+            Container(
+              height: 40,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: BGChanger, width: 40),
+                ),
+            )
+            )
+
           ],
         ),
       ),
@@ -142,7 +154,7 @@ class _Workout extends State<Workout> {
         ),
       ),
       iconTheme: IconThemeData(color: Colors.white),
-      backgroundColor: BGColor,
+      backgroundColor: BGChanger,
       elevation: 0.0,
       scrolledUnderElevation: 0.0,
       centerTitle: true,
@@ -162,27 +174,39 @@ class _Workout extends State<Workout> {
     );
   }
 
-  Text _stepTimer()
+  Container _stepTimer()
   {
-    return Text(
-      "${currentMinutes ~/ 10}${currentMinutes % 10} : ${currentSeconds ~/ 10}${currentSeconds % 10}",
-      style: TextStyle(
+    return Container(
+      width: 300,
+      height: 140,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: BGChanger,
+          width: 20
+        ),
+        borderRadius: BorderRadius.circular(50)
+      ),
+      child:Text(
+        "${currentMinutes ~/ 10}${currentMinutes % 10} : ${currentSeconds ~/ 10}${currentSeconds % 10}",
+        style: TextStyle(
           fontSize: 80,
           fontFamily: 'base',
           color: Colors.white,
           fontWeight: FontWeight.bold
-      ),
+        ),
+      )
     );
   }
 
   Text _activityType()
   {
     return Text(
-      "Отдых",
+      activityTypeText,
       style: TextStyle(
           fontSize: 50,
           fontFamily: 'base',
-          color: Colors.green,
+          color: activityTypeColor,
           fontWeight: FontWeight.bold
       ),
     );
@@ -190,55 +214,60 @@ class _Workout extends State<Workout> {
 
   Expanded  _stepsList(){
     return Expanded(
-      child: ListView.separated(
-        controller: _scrollController,
-        padding: EdgeInsets.only(left: 20, right: 20),
-        itemCount: steps!.length,
-        scrollDirection: Axis.vertical,
-        separatorBuilder: (context, index) => SizedBox(height: 10,),
-        itemBuilder: (context, index) {
-          return Container(
-              alignment: Alignment.center,
-              width: 300,
-              height: 50,
-              decoration: BoxDecoration(
-                  color: ElementsColor,
-                  borderRadius: BorderRadius.circular(16)
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 150,
-                    height: 40,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      steps![index].stepType ? 'Работа': 'Отдых',
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
+      // child: Container(
+        // decoration: BoxDecoration(
+        //   border: Border(
+        //     bottom: BorderSide(color: BGChanger, width: 40),
+        //   ),
+        // ),
+        child: ListView.separated(
+          controller: _scrollController,
+          padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+          itemCount: steps!.length,
+          scrollDirection: Axis.vertical,
+          separatorBuilder: (context, index) => SizedBox(height: 10,),
+          itemBuilder: (context, index) {
+            return Container(
+                alignment: Alignment.center,
+                width: 300,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: ElementsColor,
+                    borderRadius: BorderRadius.circular(16)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 150,
+                      height: 40,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        steps![index].stepType ? 'Работа': 'Отдых',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-
-                  Container(
-                    width: 100,
-                    height: 40,
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      '${steps![index].minutes~/10}${steps![index].minutes%10} : ${steps![index].seconds~/10}${steps![index].seconds%10}',
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
+                    Container(
+                      width: 100,
+                      height: 40,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        '${steps![index].minutes~/10}${steps![index].minutes%10} : ${steps![index].seconds~/10}${steps![index].seconds%10}',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-
-                ],
-              )
-          );
-        },
-      ),
-    );
+                  ],
+                )
+            );
+          },
+        ),
+      );
+    // );
   }
 }

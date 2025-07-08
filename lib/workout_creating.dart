@@ -75,7 +75,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
       title: const Text(
         'Новая тренировка',
         style: TextStyle(
-          fontSize: 30,
+          fontSize: 26,
           fontFamily: 'base',
           color: Colors.white,
           fontWeight: FontWeight.bold
