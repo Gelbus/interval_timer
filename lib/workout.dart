@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:interval_timer/config.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 
 class Workout extends StatefulWidget {
@@ -38,6 +39,10 @@ class _Workout extends State<Workout> {
 
   Timer? _timer;
 
+  static AudioPlayer player = AudioPlayer();
+  AssetSource prepareSoundPath = AssetSource("sounds/prepare_sound.mp3");
+  AssetSource startSoundPath = AssetSource("sounds/start_sound.mp3");
+
   @override
   void initState() {
     super.initState();
@@ -64,6 +69,15 @@ class _Workout extends State<Workout> {
   void timerIteration() {
     generalSeconds -= 1;
     generalCurrentSeconds -= 1;
+
+    if (1 <= generalCurrentSeconds && generalCurrentSeconds <= 3)
+      {
+        player.play(prepareSoundPath);
+      }
+    else if (generalCurrentSeconds == 0)
+    {
+      player.play(startSoundPath);
+    }
 
     if (isPrepare)
       {
