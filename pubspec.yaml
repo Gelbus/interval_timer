@@ -64,6 +64,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icons/plus.svg
+    - assets/icons/start.svg
+    - assets/icons/cancel.svg
     - assets/sounds/prepare_sound.mp3
     - assets/sounds/start_sound.mp3
 

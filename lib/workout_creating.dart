@@ -130,7 +130,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
             fontFamily: 'base'
         ),
         textAlign: TextAlign.start, // выравнивание текста
-        maxLength: 14, // максимальное количество символов
+        maxLength: 12, // максимальное количество символов
         cursorColor: Colors.blue, // цвет курсора
         cursorWidth: 2.0, // ширина курсора
         cursorHeight: 20.0, // высота курсора
@@ -311,8 +311,9 @@ class _WorkoutCreating extends State<WorkoutCreating> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(width: 10,),
                   Container(
-                    width: 150,
+                    width: 140,
                     height: 40,
                     alignment: Alignment.centerLeft,
                     child: Text(

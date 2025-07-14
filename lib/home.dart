@@ -80,7 +80,17 @@ class _HomeState extends State<Home> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(width: 5,),
+                  SvgPicture.asset(
+                    'assets/icons/start.svg',
+                    width: 25,
+                    height: 25,
+                    colorFilter: ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn
+                    ),
+                  ),
+                  SizedBox(width: 5,),
                   Container(
                     decoration: BoxDecoration(
                       //color: Colors.blue
@@ -97,11 +107,12 @@ class _HomeState extends State<Home> {
                     ),
                   ),
 
+                  SizedBox(width: 10,),
                   Container(
                     decoration: BoxDecoration(
                       //color: Colors.red
                     ),
-                    width: 120,
+                    width: 100,
                     height: 40,
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -113,7 +124,6 @@ class _HomeState extends State<Home> {
                     ),
                   ),
 
-                  SizedBox(width: 10,),
                   Container(
                     width: 40,
                     height: 40,
@@ -121,13 +131,19 @@ class _HomeState extends State<Home> {
                     child: IconButton(
                       onPressed: () {
                         setState(() {
-                          data!.remove(data![index]);
+                          data!.remove(data![index]); // удалить
+                          saveTrainingsList(data!);
+
                         });
                       },
-                      icon: Icon(
-                        Icons.remove_circle_outline,
-                        color: Colors.white,
-                        size: 25,
+                      icon: SvgPicture.asset(
+                        'assets/icons/cancel.svg',
+                        width: 25,
+                        height: 25,
+                        colorFilter: ColorFilter.mode(
+                            Colors.white,
+                            BlendMode.srcIn
+                        ),
                       ),
                     ),
                   )

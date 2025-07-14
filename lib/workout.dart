@@ -30,7 +30,7 @@ class _Workout extends State<Workout> {
   int currentMinutes = 0;
   int currentSeconds = 0;
 
-  bool isWorking = true;
+  bool isPaused = false;
   bool isPrepare = true;
 
   String activityTypeText = "Подготовка";
@@ -67,46 +67,49 @@ class _Workout extends State<Workout> {
   }
 
   void timerIteration() {
-    generalSeconds -= 1;
-    generalCurrentSeconds -= 1;
-
-    if (1 <= generalCurrentSeconds && generalCurrentSeconds <= 3)
+    if (!isPaused)
       {
-        player.play(prepareSoundPath);
-      }
-    else if (generalCurrentSeconds == 0)
-    {
-      player.play(startSoundPath);
-    }
+        generalSeconds -= 1;
+        generalCurrentSeconds -= 1;
 
-    if (isPrepare)
-      {
-        isPrepare = false;
-      }
-    if (generalCurrentSeconds == 0)
-      {
-        currentStep += 1;
-
-        if (currentStep == steps?.length)
+        if (1 <= generalCurrentSeconds && generalCurrentSeconds <= 3)
         {
-          _timer?.cancel();
+          player.play(prepareSoundPath);
         }
-        else
+        else if (generalCurrentSeconds == 0)
+        {
+          player.play(startSoundPath);
+        }
+
+        if (isPrepare)
+        {
+          isPrepare = false;
+        }
+        if (generalCurrentSeconds == 0)
+        {
+          currentStep += 1;
+
+          if (currentStep == steps?.length)
+          {
+            _timer?.cancel();
+          }
+          else
           {
             generalCurrentSeconds = steps![currentStep].minutes * 60 +
-                                    steps![currentStep].seconds;
+                steps![currentStep].seconds;
             activityTypeText = steps![currentStep].stepType ? "Работа": "Отдых";
             activityTypeColor = steps![currentStep].stepType ? Colors.pink: Colors.green;
             BGChanger = steps![currentStep].stepType ? Colors.pink: Colors.green;
 
           }
+        }
+
+        minutes = generalSeconds ~/ 60;
+        seconds = generalSeconds % 60;
+
+        currentMinutes = generalCurrentSeconds ~/ 60;
+        currentSeconds = generalCurrentSeconds % 60;
       }
-
-    minutes = generalSeconds ~/ 60;
-    seconds = generalSeconds % 60;
-
-    currentMinutes = generalCurrentSeconds ~/ 60;
-    currentSeconds = generalCurrentSeconds % 60;
 
     setState(() {});
   }
@@ -142,7 +145,6 @@ class _Workout extends State<Workout> {
                 ),
             )
             )
-
           ],
         ),
       ),
@@ -172,6 +174,20 @@ class _Workout extends State<Workout> {
       elevation: 0.0,
       scrolledUnderElevation: 0.0,
       centerTitle: true,
+      actions: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              isPaused = !isPaused;
+            });
+          },
+          icon: Icon(
+            !isPaused? Icons.pause: Icons.not_started_outlined,
+            color: Colors.white,
+            size: 40,
+          ),
+        )
+      ],
     );
   }
 
