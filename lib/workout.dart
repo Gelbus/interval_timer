@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:interval_timer/config.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 
 class Workout extends StatefulWidget {
@@ -46,6 +47,7 @@ class _Workout extends State<Workout> {
   @override
   void initState() {
     super.initState();
+    WakelockPlus.enable();
     steps = data?[widget.currentTraining].steps;
 
     generalSeconds =  data![widget.currentTraining].hours * 60 * 60 +
@@ -119,6 +121,7 @@ class _Workout extends State<Workout> {
   @override
   void dispose() {
     _timer?.cancel(); // ОБЯЗАТЕЛЬНО отменяем таймер при удалении виджета
+    WakelockPlus.disable();
     super.dispose();
   }
 
