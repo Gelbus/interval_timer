@@ -65,12 +65,27 @@ class _Workout extends State<Workout> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       timerIteration();
     });
+
+    initAudio();
     player.setSource(prepareSoundPath);
     player.setSource(startSoundPath);
+
     setState(() {});
   }
 
-  void timerIteration() {
+  Future<void> initAudio() async {
+    player.setAudioContext(
+      AudioContext(
+        android: AudioContextAndroid(
+          audioFocus: AndroidAudioFocus.none,
+          contentType: AndroidContentType.music,
+          usageType: AndroidUsageType.media,
+        ),
+      ),
+    );
+  }
+
+  timerIteration() {
     if (!isPaused)
       {
         generalSeconds -= 1;
@@ -122,6 +137,7 @@ class _Workout extends State<Workout> {
   @override
   void dispose() {
     _timer?.cancel(); // ОБЯЗАТЕЛЬНО отменяем таймер при удалении виджета
+    player.stop();
     WakelockPlus.disable();
     _scrollController.dispose();
     super.dispose();
