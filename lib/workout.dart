@@ -63,6 +63,8 @@ class _Workout extends State<Workout> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       timerIteration();
     });
+    player.setSource(prepareSoundPath);
+    player.setSource(startSoundPath);
     setState(() {});
   }
 
