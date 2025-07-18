@@ -36,7 +36,7 @@ class _Workout extends State<Workout> {
 
   String activityTypeText = "Подготовка";
   Color activityTypeColor = Colors.yellow;
-  Color BGChanger = BGColor;
+  Color stepNowColor = BGColor;
 
   Timer? _timer;
 
@@ -103,7 +103,8 @@ class _Workout extends State<Workout> {
                 steps![currentStep].seconds;
             activityTypeText = steps![currentStep].stepType ? "Работа": "Отдых";
             activityTypeColor = steps![currentStep].stepType ? Colors.pink: Colors.green;
-            BGChanger = steps![currentStep].stepType ? Colors.pink: Colors.green;
+            stepNowColor = steps![currentStep].stepType ? Colors.pink: Colors.green;
+            _scrollToEnd();
 
           }
         }
@@ -122,6 +123,7 @@ class _Workout extends State<Workout> {
   void dispose() {
     _timer?.cancel(); // ОБЯЗАТЕЛЬНО отменяем таймер при удалении виджета
     WakelockPlus.disable();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -146,7 +148,7 @@ class _Workout extends State<Workout> {
               height: 40,
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(color: BGChanger, width: 40),
+                  bottom: BorderSide(color: stepNowColor, width: 40),
                 ),
             )
             )
@@ -157,10 +159,16 @@ class _Workout extends State<Workout> {
   }
 
   void _scrollToEnd() {
-    _scrollController.animateTo(
-        _scrollController.position.extentTotal,
+    double shift = currentStep * 60;
+    shift = _scrollController.position.maxScrollExtent <= shift? _scrollController.position.maxScrollExtent: shift;
+    if (_scrollController.position.maxScrollExtent >= shift)
+      {
+        _scrollController.animateTo(
+        shift,
         duration: Duration(seconds: 1),
         curve: Curves.easeOut);
+      }
+
   }
 
   AppBar appBar() {
@@ -175,7 +183,7 @@ class _Workout extends State<Workout> {
         ),
       ),
       iconTheme: IconThemeData(color: Colors.white),
-      backgroundColor: BGChanger,
+      backgroundColor: stepNowColor,
       elevation: 0.0,
       scrolledUnderElevation: 0.0,
       centerTitle: true,
@@ -217,7 +225,7 @@ class _Workout extends State<Workout> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(
-          color: BGChanger,
+          color: stepNowColor,
           width: 20
         ),
         borderRadius: BorderRadius.circular(50)
@@ -267,8 +275,12 @@ class _Workout extends State<Workout> {
                 width: 300,
                 height: 50,
                 decoration: BoxDecoration(
-                    color: ElementsColor,
-                    borderRadius: BorderRadius.circular(16)
+                  color: ElementsColor,
+                  borderRadius: BorderRadius.circular(16),
+                  border: index == currentStep? Border.all(
+                    color: stepNowColor,
+                    width: 5
+                  ): null
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

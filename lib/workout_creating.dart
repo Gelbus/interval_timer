@@ -29,6 +29,7 @@ class _WorkoutCreating extends State<WorkoutCreating> {
   @override
   void dispose() {
     textController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
