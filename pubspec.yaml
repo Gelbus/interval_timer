@@ -70,6 +70,8 @@ flutter:
     - assets/icons/cancel.svg
     - assets/sounds/prepare_sound.mp3
     - assets/sounds/start_sound.mp3
+    - assets/sounds/end_sound.mp3
+    - assets/sounds/final_step_sound.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

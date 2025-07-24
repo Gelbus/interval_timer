@@ -44,6 +44,9 @@ class _Workout extends State<Workout> {
   static AudioPlayer player = AudioPlayer();
   AssetSource prepareSoundPath = AssetSource("sounds/prepare_sound.mp3");
   AssetSource startSoundPath = AssetSource("sounds/start_sound.mp3");
+  AssetSource endSoundPath = AssetSource("sounds/end_sound.mp3");
+  AssetSource finalStepSoundPath = AssetSource("sounds/final_step_sound.mp3");
+
 
   @override
   void initState() {
@@ -70,6 +73,8 @@ class _Workout extends State<Workout> {
     initAudio();
     player.setSource(prepareSoundPath);
     player.setSource(startSoundPath);
+    player.setSource(endSoundPath);
+    player.setSource(finalStepSoundPath);
 
     setState(() {});
   }
@@ -99,8 +104,22 @@ class _Workout extends State<Workout> {
         }
         else if (generalCurrentSeconds == 0)
         {
-          Vibration.vibrate(duration: 800);
-          player.play(startSoundPath);
+          if (currentStep == steps!.length - 1)
+            {
+              Vibration.vibrate(duration: 800);
+              player.play(finalStepSoundPath);
+            }
+          else if  (currentStep == -1 || !steps![currentStep].stepType)
+            {
+              Vibration.vibrate(duration: 800);
+              player.play(startSoundPath);
+            }
+          else
+            {
+              Vibration.vibrate(duration: 800);
+              player.play(endSoundPath);
+            }
+
         }
 
         if (isPrepare)
