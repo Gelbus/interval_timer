@@ -6,3 +6,5 @@
 ___
 
 <img width=224 src='./data/1.png'>
+<img width=224 src='./data/2.png'>
+<img width=224 src='./data/3.png'>
