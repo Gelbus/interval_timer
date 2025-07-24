@@ -5,4 +5,4 @@
 
 ___
 
-![Главное меню](./data/1.png =224x471)
+<img width=224 src='./data/1.png'>
