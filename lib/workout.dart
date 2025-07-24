@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:interval_timer/config.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:vibration/vibration.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 
@@ -93,10 +94,12 @@ class _Workout extends State<Workout> {
 
         if (1 <= generalCurrentSeconds && generalCurrentSeconds <= 3)
         {
+          Vibration.vibrate(duration: 500);
           player.play(prepareSoundPath);
         }
         else if (generalCurrentSeconds == 0)
         {
+          Vibration.vibrate(duration: 800);
           player.play(startSoundPath);
         }
 
