@@ -109,7 +109,7 @@ class _Workout extends State<Workout> {
               Vibration.vibrate(duration: 800);
               player.play(finalStepSoundPath);
             }
-          else if  (currentStep == -1 || !steps![currentStep].stepType)
+          else if  (currentStep == -1 || steps![currentStep + 1].stepType)
             {
               Vibration.vibrate(duration: 800);
               player.play(startSoundPath);
